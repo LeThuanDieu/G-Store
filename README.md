@@ -16,8 +16,8 @@ G-Store là một ứng dụng Full-stack Web hỗ trợ người dùng mua sắ
 - **Tools:** Maven, Git, Docker.
 
 ## 📁 Cấu trúc thư mục
-- `/client`: Mã nguồn Frontend (React).
-- `/backend`: Mã nguồn Backend (Spring Boot).
+- `/frontend/client`: Mã nguồn Frontend (React).
+- `/backend/gstore`: Mã nguồn Backend (Spring Boot).
 - `/docs`: Chứa sơ đồ Database (ERD) và tài liệu API.
 
 ## ⚙️ Hướng dẫn cài đặt
