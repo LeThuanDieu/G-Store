@@ -1,0 +1,29 @@
+# --- IDE & System ---
+.vscode/
+.idea/
+*.swp
+*.log
+.DS_Store
+
+# --- Frontend (React/Vite) ---
+client/node_modules/
+client/dist/
+client/.env
+client/.env.local
+
+# --- Backend (Java Spring Boot) ---
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.jar
+backend/*.war
+
+# --- Database & Secrets ---
+.env
+*.sql
+*.db
+
+# --- Miscellaneous ---
+temp/
+out/
