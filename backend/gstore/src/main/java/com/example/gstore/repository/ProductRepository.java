@@ -7,5 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.example.gstore.model.Product;
 
 public interface ProductRepository extends MongoRepository<Product,String>{  
-    
+    List<Product> findByCategory(String category);
+    List<Product> findByDeletedFalse();
 }
