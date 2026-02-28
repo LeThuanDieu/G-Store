@@ -11,19 +11,13 @@ import lombok.Data;
 
 @Document(collection = "oders")
 @Data
-public class Oder {
+public class Order {
     @Id
     private String id;
     private String userId; //id người mua
-    private List<OderItem> items; //list sản phẩm trong đơn hàng
+    private List<OrderItem> items; //list sản phẩm trong đơn hàng
     private Double totalPrice;
     private String status;//PENDING, SHIPPING,DELIVERRD,CANCELLED
     private LocalDateTime createAt = LocalDateTime.now();
 }
-@Data
-class OderItem{
-    private String productId;
-    private String productName;
-    private Integer quantity;
-    private Double price;
-}
+

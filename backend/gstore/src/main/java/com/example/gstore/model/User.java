@@ -24,5 +24,6 @@ public class User {
     private String email;
 
     private String roles;
+    private boolean deleted = false;   // soft delete
 
 }
