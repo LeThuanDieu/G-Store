@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("api/v1/categories")
 public class CategoryController {
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @GetMapping("/user")
     public List<CategoryResponse> getAllCategory(){

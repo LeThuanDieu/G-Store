@@ -18,7 +18,7 @@ import com.example.gstore.repository.CategoryRepository;
 
 public class CategoryService {
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     public Category addCategory(CategoryRequest request){
         Category category = new Category();
         category.setName(request.getName());
