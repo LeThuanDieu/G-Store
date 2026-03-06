@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.gstore.dto.requestDTO.ProductCreateRequest;
 import com.example.gstore.dto.requestDTO.ProductUpdateRequest;
+import com.example.gstore.dto.responseDTO.ProductDetailResponse;
+import com.example.gstore.dto.responseDTO.ProductListResponse;
 import com.example.gstore.model.Product;
 import com.example.gstore.repository.ProductRepository;
 import com.example.gstore.service.ProductService;
@@ -53,6 +55,14 @@ public class ProductController {
     @GetMapping("")
     public List<Product> getAll(){
        return productService.getAllProducts();
+    }
+    @GetMapping("/list-products")
+    public List<ProductListResponse> getAllProduct(){
+        return productService.getProductUser();
+    }
+    @GetMapping("{id}")
+    public ProductDetailResponse detailProduct(@PathVariable String id){
+        return productService.getDetailProduct(id);
     }
     
 }

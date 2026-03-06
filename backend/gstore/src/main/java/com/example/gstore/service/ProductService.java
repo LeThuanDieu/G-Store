@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gstore.dto.requestDTO.ProductCreateRequest;
 import com.example.gstore.dto.requestDTO.ProductUpdateRequest;
+import com.example.gstore.dto.responseDTO.*;
 import com.example.gstore.model.Category;
 import com.example.gstore.model.Product;
 import com.example.gstore.repository.CategoryRepository;
@@ -67,5 +68,27 @@ public class ProductService {
     }
     public List<Product> getAllProducts(){
         return productRepository.findAll();
+    }
+    public List<ProductListResponse> getProductUser(){
+        List<Product> products = productRepository.findAllByStatusTrueAndDeletedFalse();
+        return products.stream()
+                .map(product -> new ProductListResponse(
+                        product.getId(),
+                        product.getName(),
+                        product.getPrice(),
+                        product.getImages()
+                ))
+                .toList();
+            }
+    public ProductDetailResponse getDetailProduct(String id){
+        Product product = productRepository.findById(id).orElseThrow(()-> new RuntimeException("Không tìm thấy sản phâm !"));
+        return new ProductDetailResponse(
+                        product.getName(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getImages(),
+                        product.getCategory().getId(),
+                        product.getStock()
+        );
     }
 }
