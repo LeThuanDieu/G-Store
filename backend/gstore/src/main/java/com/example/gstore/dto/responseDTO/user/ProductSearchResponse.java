@@ -1,4 +1,4 @@
-package com.example.gstore.dto.responseDTO;
+package com.example.gstore.dto.responseDTO.user;
 
 import java.util.List;
 
@@ -7,9 +7,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ProductListResponse {
+public class ProductSearchResponse {
     private String id;
     private String name;
     private Double price;
     private List<String> images;
+    private String category;
+    private Integer stock;
+
 }

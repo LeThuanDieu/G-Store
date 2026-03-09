@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.gstore.dto.requestDTO.CategoryRequest;
-import com.example.gstore.dto.responseDTO.CategoryResponse;
-import com.example.gstore.dto.responseDTO.CategoryResponseAdmin;
+import com.example.gstore.dto.requestDTO.admin.CategoryRequest;
+import com.example.gstore.dto.responseDTO.admin.CategoryResponseAdmin;
+import com.example.gstore.dto.responseDTO.user.CategoryResponse;
 import com.example.gstore.model.Category;
 import com.example.gstore.service.CategoryService;
 import org.springframework.web.bind.annotation.PostMapping;

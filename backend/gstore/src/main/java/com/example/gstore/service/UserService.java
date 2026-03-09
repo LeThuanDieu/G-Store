@@ -3,10 +3,11 @@ import com.example.gstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.example.gstore.controller.UserController;
-import com.example.gstore.dto.requestDTO.LoginRequest;
-import com.example.gstore.dto.requestDTO.RegisterRequest;
-import com.example.gstore.dto.responseDTO.JwtResponse;
+import com.example.gstore.dto.requestDTO.user.LoginRequest;
+import com.example.gstore.dto.requestDTO.user.RegisterRequest;
+import com.example.gstore.dto.responseDTO.admin.JwtResponse;
 import com.example.gstore.model.User;
 
 @Service

@@ -1,4 +1,4 @@
-package com.example.gstore.dto.requestDTO;
+package com.example.gstore.dto.requestDTO.user;
 
 import lombok.Data;
 

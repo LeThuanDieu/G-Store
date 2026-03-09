@@ -1,4 +1,4 @@
-package com.example.gstore.dto.responseDTO;
+package com.example.gstore.dto.responseDTO.admin;
 
 import java.util.List;
 

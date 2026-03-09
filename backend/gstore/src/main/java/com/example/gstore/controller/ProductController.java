@@ -3,6 +3,7 @@ package com.example.gstore.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.gstore.dto.requestDTO.ProductCreateRequest;
-import com.example.gstore.dto.requestDTO.ProductUpdateRequest;
-import com.example.gstore.dto.responseDTO.ProductDetailResponse;
-import com.example.gstore.dto.responseDTO.ProductListResponse;
+import com.example.gstore.dto.requestDTO.admin.ProductCreateRequest;
+import com.example.gstore.dto.requestDTO.admin.ProductUpdateRequest;
+import com.example.gstore.dto.responseDTO.user.ProductDetailResponse;
+import com.example.gstore.dto.responseDTO.user.ProductListResponse;
+import com.example.gstore.dto.responseDTO.user.ProductSearchResponse;
 import com.example.gstore.model.Product;
 import com.example.gstore.repository.ProductRepository;
 import com.example.gstore.service.ProductService;
@@ -52,10 +55,11 @@ public class ProductController {
         productService.statusProduct(id);
         return ResponseEntity.ok("Đã ẩn sản phẩm : "+id);
     }
-    @GetMapping("")
+    @GetMapping("/getAll")
     public List<Product> getAll(){
        return productService.getAllProducts();
     }
+    //--------------------User--------------
     @GetMapping("/list-products")
     public List<ProductListResponse> getAllProduct(){
         return productService.getProductUser();
@@ -64,5 +68,18 @@ public class ProductController {
     public ProductDetailResponse detailProduct(@PathVariable String id){
         return productService.getDetailProduct(id);
     }
-    
+    //-------------
+    // @GetMapping
+    // public Page<ProductSearchResponse> getProducts(
+    //     @RequestParam(required = false) String id,
+    //     @RequestParam(required = false) String name,
+    //     @RequestParam(required = false) String category,
+    //     @RequestParam(required = false) Double minPrice,
+    //     @RequestParam(required = false) Double maxPrice,
+    //     @RequestParam(required = false) String sort,
+    //     @RequestParam(defaultValue = "0") int page,
+    //     @RequestParam(defaultValue = "10") int size)
+    // {
+    //     return productService.getProducts(name, category, minPrice, maxPrice, sort, page, size);
+    // }
 }

@@ -1,4 +1,4 @@
-package com.example.gstore.dto.responseDTO;
+package com.example.gstore.dto.responseDTO.user;
 
 public class RegisterResponse {
     private String id;

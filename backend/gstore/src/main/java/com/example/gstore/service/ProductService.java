@@ -3,12 +3,20 @@ package com.example.gstore.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.gstore.dto.requestDTO.ProductCreateRequest;
-import com.example.gstore.dto.requestDTO.ProductUpdateRequest;
-import com.example.gstore.dto.responseDTO.*;
+import com.example.gstore.dto.requestDTO.admin.ProductCreateRequest;
+import com.example.gstore.dto.requestDTO.admin.ProductUpdateRequest;
+import com.example.gstore.dto.responseDTO.admin.*;
+import com.example.gstore.dto.responseDTO.user.*;
+import com.example.gstore.dto.responseDTO.user.ProductDetailResponse;
+import com.example.gstore.dto.responseDTO.user.ProductListResponse;
+import com.example.gstore.dto.responseDTO.user.ProductSearchResponse;
 import com.example.gstore.model.Category;
 import com.example.gstore.model.Product;
 import com.example.gstore.repository.CategoryRepository;
@@ -69,6 +77,8 @@ public class ProductService {
     public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
+    //-------------------------User----------------------
+
     public List<ProductListResponse> getProductUser(){
         List<Product> products = productRepository.findAllByStatusTrueAndDeletedFalse();
         return products.stream()
@@ -91,4 +101,39 @@ public class ProductService {
                         product.getStock()
         );
     }
+//     public Page<ProductSearchResponse> getProducts(
+//         String name,
+//         String category,
+//         Double minPrice,
+//         Double maxPrice,
+//         String sort,
+//         int page,
+//         int size
+// ) {
+
+//      Sort sortOption = Sort.unsorted();
+//         if ("price_asc".equals(sort)) sortOption = Sort.by("price").ascending();
+//         else if ("price_desc".equals(sort)) sortOption = Sort.by("price").descending();
+//         else if ("newest".equals(sort)) sortOption = Sort.by("createdAt").descending();
+
+//         PageRequest pageable = PageRequest.of(page, size, sortOption);
+
+//         // Nếu param null thì đổi thành default
+//         name = (name == null) ? "" : name;
+//         category = (category == null) ? "" : category;
+//         minPrice = (minPrice == null) ? 0.0 : minPrice;
+//         maxPrice = (maxPrice == null) ? Double.MAX_VALUE : maxPrice;
+
+//          Page<Product> products = productRepository.searchProducts(name, category, minPrice, maxPrice, pageable);
+
+//         // map sang DTO
+//         return products.map(product -> new ProductSearchResponse(
+//                 product.getId(),
+//                 product.getName(),
+//                 product.getPrice(),
+//                 product.getImages(),
+//                 product.getCategory().getId(),
+//                 product.getStock()
+//         ));
+//     }
 }

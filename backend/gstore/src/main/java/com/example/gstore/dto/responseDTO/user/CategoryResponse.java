@@ -1,13 +1,12 @@
-package com.example.gstore.dto.responseDTO;
+package com.example.gstore.dto.responseDTO.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CategoryResponseAdmin {
-    private String id;
+public class CategoryResponse {
+    
     private String name;
     private String description;
-    private boolean deleted;
 }

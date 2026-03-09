@@ -1,4 +1,4 @@
-package com.example.gstore.dto.requestDTO;
+package com.example.gstore.dto.requestDTO.admin;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ProductUpdateRequest {
+public class ProductCreateRequest {
     @NotBlank(message = "Không để trống tên sản phẩm !")
     private String name;
     private String description;

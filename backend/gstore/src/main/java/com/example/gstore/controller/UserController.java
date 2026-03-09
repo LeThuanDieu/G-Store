@@ -6,12 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.gstore.dto.requestDTO.LoginRequest;
-import com.example.gstore.dto.requestDTO.RegisterRequest;
-import com.example.gstore.dto.responseDTO.JwtResponse;
-import com.example.gstore.dto.responseDTO.RegisterResponse;
+import com.example.gstore.dto.requestDTO.user.LoginRequest;
+import com.example.gstore.dto.requestDTO.user.RegisterRequest;
+import com.example.gstore.dto.responseDTO.admin.JwtResponse;
+import com.example.gstore.dto.responseDTO.user.RegisterResponse;
 import com.example.gstore.model.User;
 import com.example.gstore.service.UserService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

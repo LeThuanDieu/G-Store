@@ -1,4 +1,4 @@
-package com.example.gstore.dto.requestDTO;
+package com.example.gstore.dto.requestDTO.admin;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
