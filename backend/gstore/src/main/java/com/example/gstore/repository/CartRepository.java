@@ -1,10 +1,14 @@
 package com.example.gstore.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.example.gstore.model.Cart;
 
-public interface CartResponsitory extends MongoRepository<Cart, String >{
+public interface CartRepository extends MongoRepository<Cart, String >{
+
+    Optional<Cart> findByUserId(String userId);
 
     
     

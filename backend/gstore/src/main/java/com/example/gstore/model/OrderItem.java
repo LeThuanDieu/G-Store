@@ -5,12 +5,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-@Document(collection = "orderItems")
+// @Document(collection = "orderItems")
 @Data
 public class OrderItem {
-    @Id
-    private String id;
-    private String orderId;
+    // @Id
+    // private String id;
+    // private String orderId;
     private String productId;
     private Integer quantity;
     private Double price;

@@ -31,6 +31,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setRoles("USER");
+        user.setDeleted(false);
 
         return userRepository.save(user);
 

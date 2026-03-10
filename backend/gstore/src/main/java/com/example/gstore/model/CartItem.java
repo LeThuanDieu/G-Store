@@ -16,5 +16,5 @@ public class CartItem{
     private String productId;
     private LocalDateTime createAt = LocalDateTime.now();
     private Integer quantity;
-    private boolean deleted = false;   // soft delete
+    // private boolean deleted = false;   // soft delete
 }

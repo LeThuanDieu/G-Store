@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.example.gstore.model.CartItem;
 
 @Repository
-public interface CartItemReponsitory extends MongoRepository<CartItem, String> {
-    List<CartItem> findByCartIdAndDeletedFalse(String cartId);
-    CartItem findByCartIdAndProductIdAndDeletedFalse(String cartId, String productId);
+public interface CartItemRepository extends MongoRepository<CartItem, String> {
+    List<CartItem> findByCartId(String cartId);
+    // CartItem findByCartIdAndProductId(String cartId, String productId);
     Optional<CartItem> findByCartIdAndProductId(String cartId, String productId);
+    void deleteByCartId(String cartId);
+
+    void deleteById(String id);
 }

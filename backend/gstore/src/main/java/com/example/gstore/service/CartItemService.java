@@ -6,20 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gstore.dto.requestDTO.user.CartItemRequest;
 import com.example.gstore.model.CartItem;
-import com.example.gstore.repository.CartItemReponsitory;
+import com.example.gstore.repository.CartItemRepository;
 
 
 @Service
 public class CartItemService {
     @Autowired
-    CartItemReponsitory cartItemReponsitory;
+    CartItemRepository cartItemRepository;
     @Autowired
     ProductService productService;
     
     @Transactional
     public CartItem addCartItem(CartItemRequest request, String cartId){
         productService.updateStock(request.getProductId(), request.getQuantity());
-        CartItem cartItem = cartItemReponsitory.findByCartIdAndProductId(cartId, request.getProductId()).orElseThrow(()->new RuntimeException("Khoong tim thay"));
+        CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cartId, request.getProductId()).orElse(null);
         if (cartItem != null) {
             cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
         } else {
@@ -28,17 +28,17 @@ public class CartItemService {
             cartItem.setProductId(request.getProductId());
             cartItem.setQuantity(request.getQuantity());
         }
-        return cartItemReponsitory.save(cartItem);
+        return cartItemRepository.save(cartItem);
     }
     public CartItem updCartItem(CartItemRequest request, String cartId){
-        CartItem cartItem = cartItemReponsitory.findById(cartId).orElseThrow(()->new RuntimeException("Không có giỏ hàng !"));
+        CartItem cartItem = cartItemRepository.findById(cartId).orElseThrow(()->new RuntimeException("Không có giỏ hàng !"));
         cartItem.setProductId(request.getProductId());
         cartItem.setQuantity(request.getQuantity());
-        return cartItemReponsitory.save(cartItem);
+        return cartItemRepository.save(cartItem);
     }
-    public CartItem deleteCartItem(String cartId, String productId){
-        CartItem cartItem = cartItemReponsitory.findByCartIdAndProductId(cartId, productId).orElseThrow(()->new RuntimeException("Không tìm thấy !"));;
-        cartItem.setDeleted(true);
-        return cartItemReponsitory.save(cartItem);
+    public void deleteCartItem(String cartId, String productId){
+        cartItemRepository.findByCartIdAndProductId(cartId, productId).orElseThrow(()->new RuntimeException("Không tìm thấy !"));;
+        // cartItem.setDeleted(true);
+        cartItemRepository.deleteByCartId(cartId);
     }
 }
