@@ -1,4 +1,4 @@
-# Logs
+# Logs - Các file ghi nhật ký lỗi
 logs
 *.log
 npm-debug.log*
@@ -7,18 +7,33 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies - Thư viện cài đặt (Cực kỳ nặng, không nên push)
+node_modules/
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
+# Environment variables - Biến môi trường (Chứa thông tin nhạy cảm)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files - Cấu hình riêng của trình soạn thảo
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Vite - Bộ nhớ đệm của công cụ build
+.vite/
+
+# Temporary files - Các file tạm khác
+.cache/
+.eslintcache
