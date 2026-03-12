@@ -79,28 +79,46 @@ public class ProductService {
     }
     //-------------------------User----------------------
 
-    public List<ProductListResponse> getProductUser(){
-        List<Product> products = productRepository.findAllByStatusTrueAndDeletedFalse();
-        return products.stream()
-                .map(product -> new ProductListResponse(
-                        product.getId(),
-                        product.getName(),
-                        product.getPrice(),
-                        product.getImages()
-                ))
-                .toList();
-            }
-    public ProductDetailResponse getDetailProduct(String id){
-        Product product = productRepository.findById(id).orElseThrow(()-> new RuntimeException("Không tìm thấy sản phâm !"));
-        return new ProductDetailResponse(
-                        product.getName(),
-                        product.getDescription(),
-                        product.getPrice(),
-                        product.getImages(),
-                        product.getCategory().getId(),
-                        product.getStock()
-        );
+   public List<ProductListResponse> getProductUser(String q) {
+    List<Product> products;
+
+    // 1. Kiểm tra nếu có từ khóa tìm kiếm thì dùng hàm tìm kiếm, không thì lấy tất cả
+    if (q != null && !q.isEmpty()) {
+        products = productRepository.findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(q);
+    } else {
+        products = productRepository.findAllByStatusTrueAndDeletedFalse();
     }
+
+    // 2. Map dữ liệu sang ProductListResponse
+    return products.stream()
+            .map(product -> new ProductListResponse(
+                    product.getId(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getImages(),
+                    // Thêm trường này để lấy tên danh mục thay vì DBRef ID
+                    product.getCategory() != null ? product.getCategory().getName() : "Khác"
+            ))
+            .toList();
+}
+    public ProductDetailResponse getDetailProduct(String id){
+    Product product = productRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm!"));
+
+    // Kiểm tra an toàn để tránh lỗi NullPointerException
+    String categoryId = (product.getCategory() != null) ? product.getCategory().getId() : null;
+    String categoryName = (product.getCategory() != null) ? product.getCategory().getName() : "Chưa phân loại";
+
+    return new ProductDetailResponse(
+            product.getName(),
+            product.getDescription(),
+            product.getPrice(),
+            product.getImages(),
+            categoryId,   // Trả về ID để dùng nếu cần (ví dụ: tìm sản phẩm tương tự)
+            categoryName, // Trả về Tên để hiển thị lên giao diện
+            product.getStock()
+    );
+}
 //     public Page<ProductSearchResponse> getProducts(
 //         String name,
 //         String category,

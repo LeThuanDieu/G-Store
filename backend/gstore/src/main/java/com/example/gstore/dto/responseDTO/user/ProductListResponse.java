@@ -12,4 +12,5 @@ public class ProductListResponse {
     private String name;
     private Double price;
     private List<String> images;
+    private String categoryName;
 }

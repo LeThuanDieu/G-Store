@@ -61,8 +61,9 @@ public class ProductController {
     }
     //--------------------User--------------
     @GetMapping("/list-products")
-    public List<ProductListResponse> getAllProduct(){
-        return productService.getProductUser();
+    public List<ProductListResponse> getAllProduct(@RequestParam(name = "q", required = false) String q) {
+        System.out.println("Giá trị q nhận được: " + q);
+        return productService.getProductUser(q);
     }
     @GetMapping("{id}")
     public ProductDetailResponse detailProduct(@PathVariable String id){

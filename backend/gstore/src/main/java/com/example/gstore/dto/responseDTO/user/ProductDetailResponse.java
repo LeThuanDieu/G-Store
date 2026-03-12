@@ -12,5 +12,6 @@ public class ProductDetailResponse {
     private Double price;
     private List<String> images; // url img
     private String categoryId;
+    private String categoryName;
     private Integer stock;
 }

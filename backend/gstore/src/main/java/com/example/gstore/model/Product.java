@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import lombok.Data;
 
@@ -22,6 +23,6 @@ public class Product {
     private Integer stock;
     private boolean deleted = false; // soft delete
     private boolean status = true;
-    @DBRef
+    @DocumentReference
     private Category category;
 }

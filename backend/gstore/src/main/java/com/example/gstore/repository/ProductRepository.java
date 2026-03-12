@@ -14,8 +14,9 @@ public interface ProductRepository extends MongoRepository<Product,String>{
     List<Product> findByCategory(String category);
     List<Product> findByDeletedFalse();
     Optional<Product> findByIdAndDeletedFalse(String id);
-    //Chỉ lấy những sản phẩm đang được "Bật" hiển thị và chưa bị xóa
     List<Product> findAllByStatusTrueAndDeletedFalse();
+    List<Product> findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(String name);
+    List<Product> findByCategoryId(String categoryId);
     //  @Query("{ 'deleted': false, " +
     //        "'name': { $regex: ?0, $options: 'i' }, " +
     //        "'category': { $regex: ?1, $options: 'i' }, " +
