@@ -8,6 +8,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const [categories, setCategories] = useState([]);
 
   // 1. Khai báo location TRƯỚC các logic khác
   const location = useLocation();
@@ -16,14 +17,15 @@ const Home = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      // Lấy query từ URL (?q=...)
       const searchParams = new URLSearchParams(location.search);
       const query = searchParams.get("q")?.trim() || "";
+      const catId = searchParams.get("category") || "";
 
-      const response = await axiosClient.get(
-        `/products/list-products?q=${query}`,
-      );
-
+      let endpoint = `/products/list-products?q=${query}`;
+      if (catId) {
+        endpoint = `/products/filter?categoryId=${catId}`;
+      }
+      const response = await axiosClient.get(endpoint);
       setProducts(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu:", error);
@@ -31,11 +33,17 @@ const Home = () => {
       setLoading(false);
     }
   };
-
-  // 3. Gọi hàm fetch mỗi khi URL (location.search) thay đổi
   useEffect(() => {
-    fetchProducts(); // Phải có cặp ngoặc () để thực thi hàm
+    fetchProducts();
   }, [location.search]);
+
+  useEffect(() => {
+    const fetchCats = async () => {
+      const res = await axiosClient.get("/categories/user");
+      setCategories(res.data);
+    };
+    fetchCats();
+  }, []);
 
   // Lấy query để hiển thị tiêu đề nếu đang tìm kiếm
   const currentQuery = new URLSearchParams(location.search).get("q");
@@ -43,7 +51,7 @@ const Home = () => {
   return (
     <div className="p-4">
       {/* 1. HERO BANNER */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 mb-12 text-white flex flex-col md:flex-row items-center justify-between shadow-2xl shadow-blue-200">
+      {/* <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 mb-12 text-white flex flex-col md:flex-row items-center justify-between shadow-2xl shadow-blue-200">
         <div className="max-w-md">
           <h1 className="text-4xl font-black mb-4 uppercase tracking-tight">
             Khai phá sức mạnh công nghệ
@@ -58,7 +66,7 @@ const Home = () => {
         <div className="hidden md:block opacity-20 text-8xl font-black select-none">
           G-STORE
         </div>
-      </div>
+      </div> */}
 
       {/* 2. TIÊU ĐỀ */}
       <div className="flex justify-between items-end mb-8">
@@ -76,7 +84,31 @@ const Home = () => {
           </p>
         )}
       </div>
-
+      <div className="flex flex-wrap gap-3 mb-8">
+        <Link
+          to="/"
+          className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+            !new URLSearchParams(location.search).get("category")
+              ? "bg-blue-600 text-white shadow-md"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          Tất cả
+        </Link>
+        {categories.map((cat) => (
+          <Link
+            key={cat.id || cat.name}
+            to={`/?category=${cat.id}`}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              new URLSearchParams(location.search).get("category") === cat.id
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {cat.name}
+          </Link>
+        ))}
+      </div>
       {/* 3. DANH SÁCH SẢN PHẨM */}
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-pulse">

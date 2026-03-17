@@ -40,7 +40,7 @@ public class CategoryService {
         List<Category> categories = categoryRepository.findByDeletedFalse();
         return categories.stream()
                      .map(category -> new CategoryResponse(
-                        //  category.getId(),
+                         category.getId(),
                          category.getName(),
                          category.getDescription()
                      ))
@@ -62,6 +62,6 @@ public class CategoryService {
     }
     public CategoryResponse findCategoryById(String id){
         Category category = categoryRepository.findByIdAndDeletedFalse(id).orElseThrow(()-> new RuntimeException("Không tìm thấy !"));
-        return new CategoryResponse(category.getName(), category.getDescription());
+        return new CategoryResponse(id,category.getName(), category.getDescription());
         }
 }

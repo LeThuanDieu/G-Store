@@ -2,6 +2,7 @@ package com.example.gstore.service;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -128,6 +129,10 @@ public class ProductService {
 //         int page,
 //         int size
 // ) {
+    public List<Product> getProductByCategory(String categoryId) {
+        // ObjectId cateObjectId = new ObjectId(categoryId);
+        return productRepository.findByCategoryIdAndStatusTrueAndDeletedFalse(categoryId);
+    }
 
 //      Sort sortOption = Sort.unsorted();
 //         if ("price_asc".equals(sort)) sortOption = Sort.by("price").ascending();

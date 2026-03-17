@@ -3,6 +3,7 @@ package com.example.gstore.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,7 +12,7 @@ import org.springframework.data.mongodb.repository.Query;
 import com.example.gstore.model.Product;
 
 public interface ProductRepository extends MongoRepository<Product,String>{  
-    List<Product> findByCategory(String category);
+    // List<Product> findByCategory(String category);
     List<Product> findByDeletedFalse();
     Optional<Product> findByIdAndDeletedFalse(String id);
     List<Product> findAllByStatusTrueAndDeletedFalse();
@@ -22,4 +23,5 @@ public interface ProductRepository extends MongoRepository<Product,String>{
     //        "'category': { $regex: ?1, $options: 'i' }, " +
     //        "'price': { $gte: ?2, $lte: ?3 } }")
     // Page<Product> searchProducts(String name, String category, Double minPrice, Double maxPrice, Pageable pageable);
+    List<Product> findByCategoryIdAndStatusTrueAndDeletedFalse(String categoryId);
 }

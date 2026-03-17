@@ -2,6 +2,7 @@ package com.example.gstore.controller;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -62,12 +63,16 @@ public class ProductController {
     //--------------------User--------------
     @GetMapping("/list-products")
     public List<ProductListResponse> getAllProduct(@RequestParam(name = "q", required = false) String q) {
-        System.out.println("Giá trị q nhận được: " + q);
+        // System.out.println("Giá trị q nhận được: " + q);
         return productService.getProductUser(q);
     }
     @GetMapping("{id}")
     public ProductDetailResponse detailProduct(@PathVariable String id){
         return productService.getDetailProduct(id);
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam String categoryId){
+        return ResponseEntity.ok(productService.getProductByCategory(categoryId));
     }
     //-------------
     // @GetMapping
