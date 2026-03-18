@@ -62,18 +62,27 @@ public class ProductController {
     }
     //--------------------User--------------
     @GetMapping("/list-products")
-    public List<ProductListResponse> getAllProduct(@RequestParam(name = "q", required = false) String q) {
-        // System.out.println("Giá trị q nhận được: " + q);
-        return productService.getProductUser(q);
-    }
+    public ResponseEntity<Page<ProductListResponse>> getProductUser(
+        @RequestParam(required = false) String q,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "12") int size) {
+    
+        Page<ProductListResponse> result = productService.getProductUser(q, page, size);
+        return ResponseEntity.ok(result);
+}
     @GetMapping("{id}")
     public ProductDetailResponse detailProduct(@PathVariable String id){
         return productService.getDetailProduct(id);
     }
     @GetMapping("/filter")
-    public ResponseEntity<List<Product>> getProductByCategory(@RequestParam String categoryId){
-        return ResponseEntity.ok(productService.getProductByCategory(categoryId));
-    }
+    public ResponseEntity<Page<ProductListResponse>> getByCategory(
+        @RequestParam String categoryId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "12") int size) {
+    
+        Page<ProductListResponse> result = productService.getProductByCategory(categoryId, page, size);
+        return ResponseEntity.ok(result);
+}
     //-------------
     // @GetMapping
     // public Page<ProductSearchResponse> getProducts(

@@ -5,7 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState({ content: [], totalElements: 0 });
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
   const [categories, setCategories] = useState([]);
@@ -78,9 +78,10 @@ const Home = () => {
           </h2>
           <div className="h-1.5 w-12 bg-orange-500 mt-2 rounded-full"></div>
         </div>
-        {products.length > 0 && (
+        {products?.content?.length > 0 && (
           <p className="text-gray-500 text-sm">
-            Tìm thấy {products.length} sản phẩm
+            Tìm thấy {products.totalElements || products.content.length} sản
+            phẩm
           </p>
         )}
       </div>
@@ -116,7 +117,7 @@ const Home = () => {
             <div key={n} className="h-80 bg-gray-200 rounded-2xl"></div>
           ))}
         </div>
-      ) : products.length === 0 ? (
+      ) : !products.content || products.content.length === 0 ? (
         <div className="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
           <p className="text-gray-400 text-lg">
             Không tìm thấy sản phẩm nào phù hợp.
@@ -130,7 +131,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {products.map((item) => {
+          {products?.content?.map((item) => {
             const productId = item.id;
             return (
               <div

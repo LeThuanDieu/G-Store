@@ -80,46 +80,42 @@ public class ProductService {
     }
     //-------------------------User----------------------
 
-   public List<ProductListResponse> getProductUser(String q) {
-    List<Product> products;
+    public Page<ProductListResponse> getProductUser(String q, int page, int size) {
+        // Sắp xếp theo _id giảm dần - mới nhất lên đầu
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
 
-    // 1. Kiểm tra nếu có từ khóa tìm kiếm thì dùng hàm tìm kiếm, không thì lấy tất cả
-    if (q != null && !q.isEmpty()) {
-        products = productRepository.findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(q);
-    } else {
-        products = productRepository.findAllByStatusTrueAndDeletedFalse();
+        Page<Product> productPage;
+
+        if (q != null && !q.isEmpty()) {
+            productPage = productRepository.findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(q, pageable);
+        } else {
+            productPage = productRepository.findAllByStatusTrueAndDeletedFalse(pageable);
+        }
+        return productPage.map(product -> new ProductListResponse(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImages(),
+                product.getCategory() != null ? product.getCategory().getName() : "Khác"
+        ));
     }
-
-    // 2. Map dữ liệu sang ProductListResponse
-    return products.stream()
-            .map(product -> new ProductListResponse(
-                    product.getId(),
-                    product.getName(),
-                    product.getPrice(),
-                    product.getImages(),
-                    // Thêm trường này để lấy tên danh mục thay vì DBRef ID
-                    product.getCategory() != null ? product.getCategory().getName() : "Khác"
-            ))
-            .toList();
-}
     public ProductDetailResponse getDetailProduct(String id){
-    Product product = productRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm!"));
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm!"));
 
-    // Kiểm tra an toàn để tránh lỗi NullPointerException
-    String categoryId = (product.getCategory() != null) ? product.getCategory().getId() : null;
-    String categoryName = (product.getCategory() != null) ? product.getCategory().getName() : "Chưa phân loại";
+        String categoryId = (product.getCategory() != null) ? product.getCategory().getId() : null;
+        String categoryName = (product.getCategory() != null) ? product.getCategory().getName() : "Chưa phân loại";
 
-    return new ProductDetailResponse(
-            product.getName(),
-            product.getDescription(),
-            product.getPrice(),
-            product.getImages(),
-            categoryId,   // Trả về ID để dùng nếu cần (ví dụ: tìm sản phẩm tương tự)
-            categoryName, // Trả về Tên để hiển thị lên giao diện
-            product.getStock()
-    );
-}
+        return new ProductDetailResponse(
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getImages(),
+                categoryId,   
+                categoryName, 
+                product.getStock()
+        );
+    }
 //     public Page<ProductSearchResponse> getProducts(
 //         String name,
 //         String category,
@@ -129,34 +125,21 @@ public class ProductService {
 //         int page,
 //         int size
 // ) {
-    public List<Product> getProductByCategory(String categoryId) {
-        // ObjectId cateObjectId = new ObjectId(categoryId);
-        return productRepository.findByCategoryIdAndStatusTrueAndDeletedFalse(categoryId);
-    }
+    public Page<ProductListResponse> getProductByCategory(String categoryId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        Page<Product> productPage = productRepository.findByCategoryIdAndStatusTrueAndDeletedFalse(categoryId, pageable);
+        return productPage.map(product -> new ProductListResponse(
+            product.getId(),
+            product.getName(),
+            product.getPrice(),
+            product.getImages(),
+            product.getCategory() != null ? product.getCategory().getName() : "Khác"
+    ));
+}
+//     public Page<Product> getAllProducts(int page, int size) {
+//         Pageable pageable = PageRequest.of(page, size, Sort.by("_id").descending());
+//         return productRepository.findAll(pageable);
+// }
 
-//      Sort sortOption = Sort.unsorted();
-//         if ("price_asc".equals(sort)) sortOption = Sort.by("price").ascending();
-//         else if ("price_desc".equals(sort)) sortOption = Sort.by("price").descending();
-//         else if ("newest".equals(sort)) sortOption = Sort.by("createdAt").descending();
-
-//         PageRequest pageable = PageRequest.of(page, size, sortOption);
-
-//         // Nếu param null thì đổi thành default
-//         name = (name == null) ? "" : name;
-//         category = (category == null) ? "" : category;
-//         minPrice = (minPrice == null) ? 0.0 : minPrice;
-//         maxPrice = (maxPrice == null) ? Double.MAX_VALUE : maxPrice;
-
-//          Page<Product> products = productRepository.searchProducts(name, category, minPrice, maxPrice, pageable);
-
-//         // map sang DTO
-//         return products.map(product -> new ProductSearchResponse(
-//                 product.getId(),
-//                 product.getName(),
-//                 product.getPrice(),
-//                 product.getImages(),
-//                 product.getCategory().getId(),
-//                 product.getStock()
-//         ));
-//     }
+ 
 }

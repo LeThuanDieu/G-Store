@@ -18,10 +18,8 @@ public interface ProductRepository extends MongoRepository<Product,String>{
     List<Product> findAllByStatusTrueAndDeletedFalse();
     List<Product> findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(String name);
     List<Product> findByCategoryId(String categoryId);
-    //  @Query("{ 'deleted': false, " +
-    //        "'name': { $regex: ?0, $options: 'i' }, " +
-    //        "'category': { $regex: ?1, $options: 'i' }, " +
-    //        "'price': { $gte: ?2, $lte: ?3 } }")
-    // Page<Product> searchProducts(String name, String category, Double minPrice, Double maxPrice, Pageable pageable);
     List<Product> findByCategoryIdAndStatusTrueAndDeletedFalse(String categoryId);
+    Page<Product> findByNameContainingIgnoreCaseAndStatusTrueAndDeletedFalse(String name, Pageable pageable);
+    Page<Product> findAllByStatusTrueAndDeletedFalse(Pageable pageable);
+    Page<Product> findByCategoryIdAndStatusTrueAndDeletedFalse(String categoryId, Pageable pageable);
 }
